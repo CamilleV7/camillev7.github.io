@@ -1,0 +1,392 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function closeAllPopups() {
+                document.querySelectorAll('.popup-wrap').forEach(function(popupWrap) {
+                    const popupBox = popupWrap.querySelector('.popup-box');
+                    popupBox.classList.remove('transform-in');
+                    popupWrap.style.display = 'none';
+                    
+                });
+            }
+            
+            //open popup
+            document.querySelectorAll('.popup-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    closeAllPopups();
+                    const container = btn.closest('.door-container');
+                    const door_picture = container.querySelector('.door_picture');
+                    if(!door_picture.classList.contains("doorOpen")){
+                        return;
+                    }
+                    const popupWrap = container.querySelector('.popup-wrap');
+                    const popupBox = popupWrap.querySelector('.popup-box');
+
+                    setTimeout(() => {
+                        popupWrap.style.display = 'flex';
+                    }, 200);
+                    setTimeout(() => {
+                        popupBox.classList.add('transform-in');
+                    }, 300);
+                   
+                });
+            });
+            
+            //close popup
+            document.querySelectorAll('.close-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const popupWrap = btn.closest('.popup-wrap');
+                    const popupBox = popupWrap.querySelector('.popup-box');
+
+                    popupBox.classList.remove('transform-in');
+                    popupWrap.style.display = 'none';
+                });
+            });
+
+            //close popup if anything else is clicked
+            document.addEventListener('click', function(event) {
+                document.querySelectorAll('.popup-wrap').forEach(function(popupWrap) {
+                    const popupBox = popupWrap.querySelector('.popup-box');
+                    if (popupWrap.style.display === 'flex') {
+                        if (!popupBox.contains(event.target) && !event.target.closest('.popup-btn')) {
+                            popupBox.classList.remove('transform-in');
+                            popupWrap.style.display = 'none';
+                        }
+                    }
+                });
+            });
+
+            //open or close door
+            document.querySelectorAll('.door_picture').forEach(function(door) {
+                door.addEventListener('click', function() {
+                    door.classList.toggle("doorOpen");
+                });
+            });
+        
+        });
+    </script>
+    <style>
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            caret-color: transparent;
+        }
+        
+        #main-div {
+            width: auto;
+            position: relative;
+            background: #85AAAE;
+            display: flex; flex-wrap: wrap;
+            justify-content: center; align-items: center;
+            margin: -1px;
+            padding: 40px 40px;
+        }
+        /* geometry */
+        /*.hexagon {
+            width: 250px;
+            height: 250px;
+            background: #85AAAE;
+            -webkit-clip-path: polygon(50% 5%, 100% 50%, 100% 100%, 0% 100%, 0% 50%);
+            clip-path: polygon(50% 10%, 100% 50%, 100% 100%, 0% 100%, 0% 50%);
+        }*/
+        .triangle {
+            width: 2000px;
+            height: 200px;
+            background: #85AAAE;
+            -webkit-clip-path: polygon(0% 100%, 100% 75%, 100% 100%);
+            clip-path: polygon(0% 100%, 100% 75%, 100% 100%);
+            border-bottom: 20px solid #85AAAE;
+        }
+        .circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #D9D9D9;
+            margin-top: 100px;
+            z-index: 100;
+        }
+
+        /*button*/
+        .btn {
+            margin:30px;
+            padding:2.2% 5.5%;
+            display:inline-block;
+            -webkit-transition:all linear 0.15s;
+            transition:all linear 0.15s;
+            background:none;
+            border:none;
+            width: 200px;
+            height: 350px;
+            position: relative;
+        }
+
+        .door-container {
+            flex: 1 1 calc(33.333% - 20px);
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /*pop-up*/
+        .popup-wrap {
+            width:100%;
+            height:100%;
+            display:none;
+            position: relative;
+            content:'';
+            background:rgba(0,0,0,0.85);
+        }
+
+        .popup-box {
+            width: 350px;
+            padding: 50px;
+            transform: translate(-50%, -100%) scale(0.1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            background: #D9D9D9;
+            text-align: center;
+
+            .close-btn {
+                width: 35px;
+                height: 35px;
+                display: inline-block;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                -webkit-transition: all ease 0.5s;
+                transition: all ease 0.5s;
+                border-radius: 1000px;
+                background: #d75f70;
+                font-weight: bold;
+                text-decoration: none;
+                color: #D9D9D9;
+                line-height: 190%;
+
+                &:hover {
+                    -webkit-transform: rotate(180deg);
+                    transform: rotate(180deg);
+                }
+            }
+        }
+        
+        /*transform*/
+        .popup-box.transform-in {
+            transition-delay: 4s;
+            transition: all 2s ease;
+            transform:translate(-50%, -100%) scale(1);
+        }
+
+        .door_picture
+        {
+            position: absolute;
+            cursor: pointer;
+            transform-origin: left;
+            transition: all 0.5s ease-in-out;
+            box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.4);
+            
+            &:hover {
+                filter: drop-shadow(0px 0px 1px darkred);
+            }
+        }
+
+        .doorOpen
+        {
+            /*from https://codepen.io/am_eu/pen/EgedaQ*/
+            transform: perspective(1200px) translateZ(0px) translateX(0px) translateY(0px) rotateY(-105deg);
+        }
+        
+        .door_preview_image
+        {
+            cursor: pointer;
+            overflow: hidden;
+            position: absolute;
+            top:0;
+            left:0;
+            width: 100%;
+            height: 100%;"
+            &:hover {
+                opacity:0.5;
+            }
+            -webkit-clip-path: polygon(45% 5%,
+                    60% 7%, 70% 11%, 75% 13%,
+                    80% 22%, 80% 100%,
+                    10% 100%, 10% 22%,
+                    16% 13%, 20% 11%, 25% 9%,30% 7%);
+            clip-path: polygon(
+                    45% 5%, /*middle point*/
+                    60% 7%, 70% 11%, 75% 13%, /*intermediate point at right*/
+                    80% 22%, 80% 100%, /*straight line at right*/
+                    10% 100%, 10% 22%, /*straight line at left*/
+                    16% 13%, 20% 11%, 25% 9%,30% 7%  /*intermediate point at left*/
+            );
+            object-fit: cover;
+        }
+
+    </style>
+</head>
+<body style = "background: #5F7085; overflow-y: hidden; margin:-1px;">
+<header style = "position: relative">
+    <div style = "display: flex;
+         flex-direction: row;
+         align-items: center;">
+        <!--<div class="hexagon" 
+             style="display: flex; justify-content: center; align-items: center; margin-left: 100px">-->
+            <div class="circle" style = "margin-left: 150px"></div>
+        <!--</div>-->
+        <div> 
+            <pre style = "margin-top: 120px; color: white; rotate: -1.5deg; font-size: 14px">
+                A website dedicated to my projects.
+    
+                
+    
+                I can’t always tell what lies behind every door, but I know how to open them. 
+            </pre>
+        </div>
+    </div>
+
+    <div>
+        <p style="color: white;
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding-right: 10px;"> 
+            Contact: camille.vang84@gmail.com
+        </p>
+    </div>
+
+    <div class="triangle" style = "
+        position: absolute;
+        bottom: 0;
+        right: 0;">
+    </div>
+</header>
+
+<div id="main-div">
+
+    <div class="door-container">
+        <div class="btn popup-btn">
+            <img class="door_preview_image" src="PictureLibrary/mesh_terrain.png" alt="MyopieTheGame"/>
+            <img class="door_picture" src="Drawings/red_door.png" alt="red_door"/>
+        </div>
+        <h3>Myopie The Game</h3>
+        <i>Unity 2D, 2024</i>
+        <div class="popup-wrap">
+            <div class="popup-box">
+                <h2>Myopie The Game</h2>
+                <p>A small game about Myopie, where you need to convince your date at a restaurant that you see perfectly clear ! 
+                    You need to be sure about what you order tho, you may be allergic or not have enough money...
+                    From design to code, this project helped me practice Unity.</p>
+                <a class="close-btn popup-close" href="#close">x</a>
+            </div>
+        </div>
+    </div>
+    
+    <img src="Drawings/lampe.png" alt ="lampe" style="position: relative; width: 50px; top:-150px; margin:-10px;">
+    
+    <div class="door-container">
+        <div class="btn popup-btn">
+            <img class="door_preview_image" src="PictureLibrary/boid.png" alt="boid"/>
+            <img class="door_picture" src="Drawings/red_door.png" alt="red_door" />
+        </div>
+        <h3>Boids Simulation</h3>
+        <i>Unity, 2024</i>
+        <div class="popup-wrap">
+            <div class="popup-box">
+                <h2>Boids Simulation</h2>
+                <p>In an underwater simulation, fishes truly are important as they add life and movement. 
+                    The simulation is made from the concept of boids, and I needed to make sure the performance were correct.</p>
+                <a class="close-btn popup-close" href="#close">x</a>
+            </div>
+        </div>
+    </div>
+
+    <img src="Drawings/lampe.png" alt ="lampe" style="position: relative; width: 50px; top:-150px; margin:-10px;">
+
+    <div class="door-container">
+        <div class="btn popup-btn">
+            <img class="door_preview_image" src="PictureLibrary/mesh_terrain.png" alt="mesh_terrain"/>
+            <img class="door_picture" src="Drawings/red_door.png" alt="red_door"/>
+        </div>
+        <h3>Terrain Generation</h3>
+        <i>Processing, 2024</i>
+        <div class="popup-wrap">
+            <div class="popup-box">
+                <h2>Mesh Terrain</h2>
+                <img src="PictureLibrary/mesh_terrain.png" alt="mesh_terrain"
+                     style="width: 100%;
+                        height: 100%;" />
+                <img src="PictureLibrary/lava_terrain.png" alt="mesh_terrain"
+                     style="width: 100%;
+                        height: 100%;" />
+                <p>Some terrain with a calmly crossing river, or lava rising.</p>
+                <a class="close-btn popup-close" href="#close">x</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="door-container">
+        <div class="btn popup-btn">
+            <img class="door_preview_image" src="PictureLibrary/spheres.jpg" alt="spheres"/>
+            <img class="door_picture" src="Drawings/red_door.png" alt="red_door" />
+        </div>
+        <h3>Realistic Image Synthesis</h3>
+        <i>OpenGL, 2024</i>
+        <div class="popup-wrap">
+            <div class="popup-box">
+                <h2>Realistic Image Synthesis</h2>
+                <p>A sub-heading for the popup with a little description.</p>
+                <a class="close-btn popup-close" href="#close">x</a>
+            </div>
+        </div>
+    </div>
+
+    <img src="Drawings/lampe.png" alt ="lampe" style="position: relative; width: 50px; top:-150px; margin:-10px;">
+
+    <div class="door-container">
+        <div class="btn popup-btn">
+            <img class="door_preview_image" src="PictureLibrary/sponza.bmp" alt="sponza"/>
+            <img class="door_picture" src="Drawings/red_door.png" alt="red_door" />
+        </div>
+        <h3>Real-time 3D Engine</h3>
+        <i>OpenGL, 2023</i>
+        <div class="popup-wrap">
+            <div class="popup-box">
+                <h2>Real-time 3D Engine</h2>
+                <p>A sub-heading for the popup with a little description.</p>
+                <a class="close-btn popup-close" href="#close">x</a>
+            </div>
+        </div>
+    </div>
+
+    <img src="Drawings/lampe.png" alt ="lampe" style="position: relative; width: 50px; top:-150px; margin:-10px;">
+
+    <div class="door-container">
+        <div class="btn popup-btn">
+            <img class="door_preview_image" src="PictureLibrary/video_preview_first_blender.png" alt="video_preview_first_blender"/>
+            <img class="door_picture" src="Drawings/red_door.png" alt="red_door" />
+        </div>
+        <h3>Short Animation</h3>
+        <i>Blender, 2023</i>
+        <div class="popup-wrap">
+            <div class="popup-box">
+                <h2>Short Animation</h2>
+                <p>First animation in Blender, to explore this engine and to honor my cursus between Literature and Computer Science.</p>
+                <a class="close-btn popup-close" href="#close">x</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
