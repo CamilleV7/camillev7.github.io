@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -85,14 +85,7 @@
             margin: -1px;
             padding: 40px 40px;
         }
-        /* geometry */
-        /*.hexagon {
-            width: 250px;
-            height: 250px;
-            background: #85AAAE;
-            -webkit-clip-path: polygon(50% 5%, 100% 50%, 100% 100%, 0% 100%, 0% 50%);
-            clip-path: polygon(50% 10%, 100% 50%, 100% 100%, 0% 100%, 0% 50%);
-        }*/
+        
         .triangle {
             width: 2000px;
             height: 200px;
@@ -113,14 +106,13 @@
         /*button*/
         .btn {
             margin:30px;
-            padding:2.2% 5.5%;
             display:inline-block;
             -webkit-transition:all linear 0.15s;
             transition:all linear 0.15s;
             background:none;
             border:none;
             width: 200px;
-            height: 350px;
+            height: 400px;
             position: relative;
         }
 
@@ -164,17 +156,12 @@
                 right: 10px;
                 -webkit-transition: all ease 0.5s;
                 transition: all ease 0.5s;
-                border-radius: 1000px;
-                background: #d75f70;
+                border-radius: 100px;
+                background: #a6374a;
                 font-weight: bold;
                 text-decoration: none;
                 color: #D9D9D9;
                 line-height: 190%;
-
-                &:hover {
-                    -webkit-transform: rotate(180deg);
-                    transform: rotate(180deg);
-                }
             }
         }
         
@@ -191,8 +178,9 @@
             cursor: pointer;
             transform-origin: left;
             transition: all 0.5s ease-in-out;
-            box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.4);
-            
+            box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.4);
+            height: 100%;
+            object-fit: fill;
             &:hover {
                 filter: drop-shadow(0px 0px 1px darkred);
             }
@@ -206,32 +194,28 @@
         
         .door_preview_image
         {
+            scale: 98%;
+            bottom:-1px;
+            left: -4px;
             cursor: pointer;
             overflow: hidden;
             position: absolute;
-            top:0;
-            left:0;
             width: 100%;
-            height: 100%;"
+            height: 100%;
             &:hover {
-                opacity:0.5;
+                opacity:0.4;
+                transition: all 0.5s ease-in-out;
             }
-            -webkit-clip-path: polygon(45% 5%,
-                    60% 7%, 70% 11%, 75% 13%,
-                    80% 22%, 80% 100%,
-                    10% 100%, 10% 22%,
-                    16% 13%, 20% 11%, 25% 9%,30% 7%);
-            clip-path: polygon(
-                    45% 5%, /*middle point*/
-                    60% 7%, 70% 11%, 75% 13%, /*intermediate point at right*/
-                    80% 22%, 80% 100%, /*straight line at right*/
-                    10% 100%, 10% 22%, /*straight line at left*/
-                    16% 13%, 20% 11%, 25% 9%,30% 7%  /*intermediate point at left*/
-            );
             object-fit: cover;
+            
+            mask-image: url("Drawings/door_mask.png");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            box-shadow: 0 3px 2px 5px rgba(0, 0, 0, 0.4);
+         
         }
-
-    </style>
+</style>
 </head>
 <body style = "background: #5F7085; overflow-y: hidden; margin:-1px;">
 <header style = "position: relative">
@@ -244,7 +228,7 @@
         <!--</div>-->
         <div> 
             <pre style = "margin-top: 120px; color: white; rotate: -1.5deg; font-size: 14px">
-                A website dedicated to my projects.
+                A website dedicated to my projects. (still on construction)
     
                 
     
@@ -298,7 +282,7 @@
             <img class="door_picture" src="Drawings/red_door.png" alt="red_door" />
         </div>
         <h3>Boids Simulation</h3>
-        <i>Unity, 2024</i>
+        <i>Unity 3D, 2024</i>
         <div class="popup-wrap">
             <div class="popup-box">
                 <h2>Boids Simulation</h2>
@@ -320,7 +304,7 @@
         <i>Processing, 2024</i>
         <div class="popup-wrap">
             <div class="popup-box">
-                <h2>Mesh Terrain</h2>
+                <h2>Terrain Procedural Generation</h2>
                 <img src="PictureLibrary/mesh_terrain.png" alt="mesh_terrain"
                      style="width: 100%;
                         height: 100%;" />
@@ -379,6 +363,9 @@
         <div class="popup-wrap">
             <div class="popup-box">
                 <h2>Short Animation</h2>
+                <video controls width="350">
+                    <source src="PictureLibrary/0000-0615.mp4" type="video/mp4" />
+                </video>
                 <p>First animation in Blender, to explore this engine and to honor my cursus between Literature and Computer Science.</p>
                 <a class="close-btn popup-close" href="#close">x</a>
             </div>
@@ -387,6 +374,4 @@
 </div>
 </body>
 </html>
-
-
 
